@@ -1,0 +1,21 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Global DynamoDB Table
+
+Resources:
+  GlobalAppTable:
+    Type: AWS::DynamoDB::GlobalTable
+    Properties:
+      TableName: "GlobalPocTable"
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: "PK"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "PK"
+          KeyType: "HASH"
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      Replicas:
+        # deploying to Virginia (US-East-1) and Oregon (US-West-2)
+        - Region: "us-east-1"
+        - Region: "us-west-2"
